@@ -108,7 +108,7 @@ We can use a single table design to store all the required information. This mea
 Primary Key = Partition Key + Sort Key
 Sample FileID = 0bf01094f5c699046d8228a8f5d5754ea454e5e58b4e6151fef37f32c83f6497
 
- - ** UserID (SHA256 of username)** - PARTITION KEY
+ - **UserID (SHA256 of username)** - PARTITION KEY
  - **FileID(MD5 of file)** - SORT KEY
 - **UserInfo**
 	 - Email
@@ -148,7 +148,7 @@ Sample FileID = 0bf01094f5c699046d8228a8f5d5754ea454e5e58b4e6151fef37f32c83f6497
 		- AntiVirus: JSON
 
 			
-## API
+## API Samples
 
 ### File upload(and analyse)
 
