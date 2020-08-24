@@ -13,8 +13,8 @@ The proposed design for the virus total clone consists of several managed servic
 -  **Event Stream**: Amazon Simple Notification Service
 -  **Session Management**: Amazon ElastiCache for Redis
 -  **Cluster Management**: Managed Kubernetes Cluster - AWS Fargate
- - Frontend user interface: Web UI containers
- - Backend services: File upload, processing and scanning services run on containers	 
+	 - Frontend user interface: Web UI containers
+	 - Backend services: File upload, processing and scanning services run on containers	 
 -  **File Storage**: Amazon S3
 -  **Metadata Storage**: Amazon DynamoDB
 -  **Monitoring and Metrics Collection**
