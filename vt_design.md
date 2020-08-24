@@ -31,7 +31,7 @@ The proposed design for the virus total clone consists of several managed servic
  7. Metrics sent to Prometheus and viewed on Grafana Dashboards
  
 ## Authorization and Authentication
- JSON Web Tokens are used for authentication in the HTTP Bearer header. Each user has a user ID, a public API access token and secret key for signing each JWT using HMAC SHA256. For each request, the API token is sent as part of the JWT payload.
+ JSON Web Tokens are used for authentication in the HTTP Bearer header. Each user has a username, a public API access token and secret key for signing each JWT using HMAC SHA256. For each request, the API token is sent as part of the JWT payload.
 
 #### JWT Contains 3 parts:
 > Header: 
@@ -43,7 +43,7 @@ The proposed design for the virus total clone consists of several managed servic
 > Payload
 `{
   "public_api_token": "1kj21312351fsr11232fsd1551fsf3",
-  "UserID": "21fdszfasf334512341"
+  "username": "virtotal"
 }`
 
 > secret key used for signature
@@ -108,7 +108,7 @@ We can use a single table design to store all the required information. This mea
 Primary Key = Partition Key + Sort Key
 Sample FileID = 0bf01094f5c699046d8228a8f5d5754ea454e5e58b4e6151fef37f32c83f6497
 
- - **UserID (SHA256 of username)** - PARTITION KEY
+ - **Username** - PARTITION KEY
  - **FileID(MD5 of file)** - SORT KEY
 - **UserInfo**
 	 - Email
