@@ -9,16 +9,16 @@ VirusTotal is a service that analyzes suspicious files and facilitates real-time
 ## Components
 The proposed design for the virus total clone consists of several managed services available on Amazon Web Services.
 
-   -  **Load Balancer**:  Amazon Elastic Load Balancer
-   -  **Event Stream**: Amazon Simple Notification Service
-   -  **Session Management**: Amazon ElastiCache for Redis
-   -  **Cluster Management**: Managed Kubernetes Cluster - AWS Fargate
-	   	 - Frontend user interface: Web UI containers
-	   	 - Backend services: File upload, processing and scanning services run on containers
-    -  **File Storage**: Amazon S3
-    -  **Metadata Storage**: Amazon DynamoDB
-    -  **Monitoring and Metrics Collection**
-    -  **Logs and debugging**: AWS Cloudwatch Logs
+-  **Load Balancer**:  Amazon Elastic Load Balancer
+-  **Event Stream**: Amazon Simple Notification Service
+-  **Session Management**: Amazon ElastiCache for Redis
+-  **Cluster Management**: Managed Kubernetes Cluster - AWS Fargate
+ - Frontend user interface: Web UI containers
+ - Backend services: File upload, processing and scanning services run on containers	 
+-  **File Storage**: Amazon S3
+-  **Metadata Storage**: Amazon DynamoDB
+-  **Monitoring and Metrics Collection**
+-  **Logs and debugging**: AWS Cloudwatch Logs
 
 ## High level flow of requests 
 
