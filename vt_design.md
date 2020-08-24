@@ -4,7 +4,7 @@ VirusTotal is a service that analyzes suspicious files and facilitates real-time
 
 ## Architecture
 
-  >Insert diagram here
+  ![architecture](https://raw.githubusercontent.com/manubhats/manubhats.github.io/vt_design/vt_architecture.jpg)
 
 ## Components
 The proposed design for the virus total clone consists of several managed services available on Amazon Web Services.
