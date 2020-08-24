@@ -13,22 +13,35 @@ The proposed design for the virus total clone consists of several managed servic
 -  **Event Stream**: Amazon Simple Notification Service
 -  **Session Management**: Amazon ElastiCache for Redis
 -  **Cluster Management**: Managed Kubernetes Cluster - AWS Fargate
-	 - Frontend user interface: Web UI containers
-	 - Backend services: File upload, processing and scanning services run on containers	 
--  **File Storage**: Amazon S3
--  **Metadata Storage**: Amazon DynamoDB
--  **Monitoring and Metrics Collection**
--  **Logs and debugging**: AWS Cloudwatch Logs
+ 	 - Frontend user interface: Web UI containers
+ 	 - Backend services: File upload, processing and scanning services run on containers
+ -  **File Storage**: Amazon S3
+ -  **Metadata Storage**: Amazon DynamoDB
+ -  **Monitoring and Metrics Collection**
+ -  **Logs and debugging**: AWS Cloudwatch Logs
 
 ## High level flow of requests 
 
  1. Load Balancer handles the initial request and routes it to Fargate pods
  2. FileManagement microservice running on the pods in Fargate handles file uploads to S3
- 3. Publish the message to SNS pub/sub
- 4. Kubernetes Fargate cluster is running containers to read from SNS pub/sub and run the scripts on the uploaded file
- 5. The same services after reading the file and running the scripts can upload the metadata to DynamoDB
- 6. Metrics sent to Prometheus and viewed on Grafana Dashboards
+ 3. Publish the message to SNS pub/sub upon successful file upload
+ 4. The same services after reading the file and running the scripts can upload the metadata to DynamoDB
+ 5. Kubernetes Fargate cluster is running python scripts that reads from SNS pub/sub and runs scans for those AV that are supported on linux based OS
+ 6. EC2 based windows server running python scripts reads from SNS and runs scans for AV supported only on windows
+ 7. Metrics sent to Prometheus and viewed on Grafana Dashboards
  
+## API/Microservices
+> To do
+
+## Scripts
+Scripts are written in Python and bundled as a Python package. Each AV scan and its required resources can be bundled into a package and versioned into a repository for each management.
+
+A successful FileUpload triggers a message(`<Username>:<MD5>`) to SNS and this is picked up by the containers and/or VMs subscribed to this topic.
+> To do
+
+## Cloud Watch Logs
+> To do
+
 ## User Interface
 
  - The web interface allows users to easily manage and scan files as well as view the metadata for completed scans.
@@ -109,7 +122,30 @@ FileID  = MD5:EPOCH_TIME
 		- AntiVirus: JSON
 
 			
-    
+## API
+
+### File upload
+
+Uploading files for scanning is the primary function. The below route handles the file uploads and starts a scan.
+
+- FileManagement microservice running on Fargate verifies the API key for each request. Reads Username and API key from ElasticCache(Redis).
+-  Writes file to cloud storage.
+    -   The MD5 and SHA256 are calculated and file upload begins.
+    -   If the file already exists (by MD5), a scan of the existing file is started.
+    -   Upon successful upload the file is renamed to  `<Username>:<MD5>`
+-  Store initial metadata for file after successful upload to DynamoDB
+-  Publish to the SNS topic after the file has completed
+- At each step an error is reported if it fails
+#### Request
+```
+PUT /api/v3/file
+Bearer: <API KEY>
+Request Body: <Multi-part upload>
+```
+### Download a file
+### Get scan status of a file
+### Get results/analyses of a file
+### Get list of scans
 
 
 
@@ -124,4 +160,3 @@ FileID  = MD5:EPOCH_TIME
 - [AWS ALB for Fargate](https://aws.amazon.com/blogs/containers/using-alb-ingress-controller-with-amazon-eks-on-fargate/)
 - [DynamoDB Core Components](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html)
 -  [Monitoring Fargate Cluster](https://aws.amazon.com/blogs/containers/monitoring-amazon-eks-on-aws-fargate-using-prometheus-and-grafana/)
-- 
