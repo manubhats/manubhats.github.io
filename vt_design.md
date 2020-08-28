@@ -1,6 +1,6 @@
-# VirusTotal Design
+# VT Design
 
-VirusTotal is a service that analyzes suspicious files and facilitates real-time detection of viruses, worms, trojans and malware content. It also manages and displays the metadata after the analysis has been completed.
+VT is a service that analyzes suspicious files and facilitates real-time detection of viruses, worms, trojans and malware content. It also manages and displays the metadata after the analysis has been completed.
 
 ## Architecture
 
